@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.ecommerce.domain.Prize;
+import com.ecommerce.ecommerce.dto.prize.PrizeActiveDto;
 import com.ecommerce.ecommerce.dto.prize.PrizeCreateDto;
 import com.ecommerce.ecommerce.dto.prize.PrizeDto;
 import com.ecommerce.ecommerce.mappers.prize.PrizeMapper;
@@ -39,4 +40,28 @@ public class PrizeServiceImpl implements PrizeService{
                 .orElseThrow(() -> new IllegalArgumentException("Premio con ID: " + id + " no encontrado."));
         return prizeMapper.prizeToPrizeDto(prize);
     }
+
+    @Override
+    public PrizeDto updatePrizeActive(Long id, PrizeActiveDto prizeActiveDto) {
+        Prize prize = prizeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Premio con ID: " + id + " no encontrado."));
+        prize.setActive(prizeActiveDto.active());
+        prizeRepository.save(prize);
+        return prizeMapper.prizeToPrizeDto(prize);
+    }
+
+    @Override
+    public PrizeDto updatePrize(Long id, PrizeCreateDto prizeCreateDto) {
+        Prize prize = prizeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Premio con ID: " + id + " no encontrado."));
+        prize.setName(prizeCreateDto.name());
+        prize.setDescription(prizeCreateDto.description());
+        prize.setPointsCost(prizeCreateDto.pointsCost());
+        prize.setStock(prizeCreateDto.stock());
+        prize.setActive(prizeCreateDto.active());
+        prizeRepository.save(prize);
+        return prizeMapper.prizeToPrizeDto(prize);
+    }
+
+    
 }
