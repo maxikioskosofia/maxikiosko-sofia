@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("/user/all").hasRole("ADMIN") // Restringir /user/all a ADMIN
                 .requestMatchers("/user/role").hasRole("ADMIN") // Restringir /user/role a ADMIN
                 .requestMatchers(HttpMethod.POST, "/points/assign").hasAnyRole("STAFF", "ADMIN") // Asignar puntos (STAFF o ADMIN)
+                .requestMatchers(HttpMethod.GET, "/points").hasAnyRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/points/user/{userId}").access(new WebExpressionAuthorizationManager(
                     "hasRole('ADMIN') or hasRole('STAFF') or @securityService.isUser(#userId)")) // Ver puntos de un usuario
                 .requestMatchers(HttpMethod.POST, "/prizes").hasRole("ADMIN") // Crear premios (solo ADMIN)

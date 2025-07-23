@@ -35,4 +35,10 @@ public class PointController {
     public ResponseEntity<List<PointDto>> getPointsByUser(@PathVariable Long userId) {
         return ResponseEntity.ok(pointService.getPointsByUser(userId));
     }
+
+    @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<PointDto>> getAllPoints(){
+        return ResponseEntity.ok(pointService.getAllPoints());
+    }
 }

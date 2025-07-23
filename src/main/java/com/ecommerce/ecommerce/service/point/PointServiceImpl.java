@@ -38,8 +38,7 @@ public class PointServiceImpl implements PointService{
         point.setPoints(pointAssignDto.points());
         point.setAssignedBy(assignedBy);
         point.setAssignmentDate(LocalDateTime.now());
-        point.setDescription(pointAssignDto.description() != null ? pointAssignDto.description() : 
-            String.format("Usuario %s (STAFF) asignó %d puntos a %s", assignedBy.getName(), pointAssignDto.points(), user.getName()));
+        point.setDescription(String.format("Usuario %s (STAFF) asignó %d puntos a %s", assignedBy.getName(), pointAssignDto.points(), user.getName()));
 
         pointRepository.save(point);
 
@@ -55,6 +54,13 @@ public class PointServiceImpl implements PointService{
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario con ID: " + userId + " no encontrado."));
         return pointRepository.findByUser(user).stream()
+                .map(pointMapper::pointToPointDto)
+                .toList();
+    }
+
+    @Override
+    public List<PointDto> getAllPoints() {
+        return pointRepository.findAll().stream()
                 .map(pointMapper::pointToPointDto)
                 .toList();
     }

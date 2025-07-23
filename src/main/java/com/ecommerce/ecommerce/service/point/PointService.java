@@ -8,4 +8,5 @@ import com.ecommerce.ecommerce.dto.point.PointDto;
 public interface PointService {
     PointDto assignPoints(PointAssigmentDto pointAssignDto);
     List<PointDto> getPointsByUser(Long userId);
+    List<PointDto> getAllPoints();
 }
