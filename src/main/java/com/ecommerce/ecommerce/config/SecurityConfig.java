@@ -47,6 +47,8 @@ public class SecurityConfig {
                     "hasRole('ADMIN') or hasRole('STAFF') or @securityService.isUser(#userId)")) // Ver puntos de un usuario
                 .requestMatchers(HttpMethod.POST, "/prizes").hasRole("ADMIN") // Crear premios (solo ADMIN)
                 .requestMatchers(HttpMethod.GET, "/prizes/**").permitAll() // Listar/obtener premios (todos)
+                .requestMatchers(HttpMethod.PUT, "/prizes/**").hasRole("ADMIN") //
+                .requestMatchers(HttpMethod.PATCH, "/prizes/**").hasRole("ADMIN") //
                 .requestMatchers(HttpMethod.POST, "/redeems").authenticated() // Canjear premios (autenticados)
                 .requestMatchers(HttpMethod.GET, "/redeems/user/{userId}").access(new WebExpressionAuthorizationManager(
                     "hasRole('ADMIN') or hasRole('STAFF') or @securityService.isUser(#userId)")) // Ver canjes de un usuario
