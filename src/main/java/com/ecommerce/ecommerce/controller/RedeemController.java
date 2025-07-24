@@ -35,4 +35,9 @@ public class RedeemController {
     public ResponseEntity<List<RedeemDto>> getRedeemsByUser(@PathVariable Long userId) {
         return ResponseEntity.ok(redeemService.getRedeemsByUser(userId));
     }
+
+    @GetMapping
+    public ResponseEntity<List<RedeemDto>> getAllRedeem() {
+        return ResponseEntity.ok(redeemService.getAllRedeem());
+    }
 }

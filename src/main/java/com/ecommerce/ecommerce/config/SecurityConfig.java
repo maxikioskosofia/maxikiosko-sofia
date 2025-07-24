@@ -54,6 +54,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/prizes/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/prizes/**").hasRole("ADMIN") //
                 .requestMatchers(HttpMethod.POST, "/redeems").authenticated() // Canjear premios (autenticados)
+                .requestMatchers(HttpMethod.GET, "/redeems").hasAnyRole("STAFF", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/redeems/user/{userId}").access(new WebExpressionAuthorizationManager(
                     "hasRole('ADMIN') or hasRole('STAFF') or @securityService.isUser(#userId)")) // Ver canjes de un usuario
                 .anyRequest().authenticated()

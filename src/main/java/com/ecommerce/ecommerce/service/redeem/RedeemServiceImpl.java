@@ -77,4 +77,11 @@ public class RedeemServiceImpl implements RedeemService{
                 .map(redeemMapper::redeemToRedeemDto)
                 .toList();
     }
+
+    @Override
+    public List<RedeemDto> getAllRedeem() {
+        return redeemRepository.findAll().stream()
+                .map(redeemMapper::redeemToRedeemDto)
+                .toList();
+    }
 }
