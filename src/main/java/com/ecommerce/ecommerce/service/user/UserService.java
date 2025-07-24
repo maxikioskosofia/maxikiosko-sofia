@@ -10,8 +10,7 @@ public interface UserService {
     User createUser(UserRegisterDto userRegisterDto);
     User getLoggingUser();
     User getUserById(Long id_user);
-
     void updateUserRole(UserRoleUpdateDto userRoleUpdateDto);
-
     List<User> getAllUsers();
+    void deleteUser(Long userId);
 }

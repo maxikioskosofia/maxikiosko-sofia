@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,5 +54,12 @@ public class PrizeController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PrizeDto> updatePrize(@PathVariable Long id, @RequestBody @Valid PrizeCreateDto prizeCreateDto) {
         return ResponseEntity.ok(prizeService.updatePrize(id, prizeCreateDto));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deletePrize(@PathVariable Long id) {
+        prizeService.deletePrize(id);
+        return ResponseEntity.noContent().build();
     }
 }

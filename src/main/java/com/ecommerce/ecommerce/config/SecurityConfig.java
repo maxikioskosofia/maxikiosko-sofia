@@ -41,13 +41,17 @@ public class SecurityConfig {
                 .requestMatchers("/user/me").authenticated() // Permitir acceso autenticado a /user/me
                 .requestMatchers("/user/all").hasRole("ADMIN") // Restringir /user/all a ADMIN
                 .requestMatchers("/user/role").hasRole("ADMIN") // Restringir /user/role a ADMIN
+                .requestMatchers(HttpMethod.DELETE,"/user/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/points/assign").hasAnyRole("STAFF", "ADMIN") // Asignar puntos (STAFF o ADMIN)
+                .requestMatchers(HttpMethod.PUT, "/points/**").hasAnyRole("STAFF", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/points/**").hasAnyRole("STAFF", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/points").hasAnyRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/points/user/{userId}").access(new WebExpressionAuthorizationManager(
                     "hasRole('ADMIN') or hasRole('STAFF') or @securityService.isUser(#userId)")) // Ver puntos de un usuario
                 .requestMatchers(HttpMethod.POST, "/prizes").hasRole("ADMIN") // Crear premios (solo ADMIN)
                 .requestMatchers(HttpMethod.GET, "/prizes/**").permitAll() // Listar/obtener premios (todos)
                 .requestMatchers(HttpMethod.PUT, "/prizes/**").hasRole("ADMIN") //
+                .requestMatchers(HttpMethod.DELETE, "/prizes/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PATCH, "/prizes/**").hasRole("ADMIN") //
                 .requestMatchers(HttpMethod.POST, "/redeems").authenticated() // Canjear premios (autenticados)
                 .requestMatchers(HttpMethod.GET, "/redeems/user/{userId}").access(new WebExpressionAuthorizationManager(

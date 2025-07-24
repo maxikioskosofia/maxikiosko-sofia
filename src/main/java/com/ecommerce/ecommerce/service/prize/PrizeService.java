@@ -12,4 +12,5 @@ public interface PrizeService {
     PrizeDto getPrizeById(Long id);
     PrizeDto updatePrize(Long id, PrizeCreateDto prizeCreateDto); // Para actualizar los demás atributos
     PrizeDto updatePrizeActive(Long id, PrizeActiveDto prizeActiveDto); // Nuevo método para actualizar active
+    void deletePrize(Long id);
 }

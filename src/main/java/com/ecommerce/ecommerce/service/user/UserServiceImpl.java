@@ -27,6 +27,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(UserRegisterDto userRegisterDto) {
+        // Validar si el nombre de usuario ya existe
+        if (userRepository.existsByName(userRegisterDto.name())) {
+            throw new IllegalArgumentException("El nombre de usuario '" + userRegisterDto.name() + "' ya está en uso.");
+        }
+
+        // Validar si el email ya existe (opcional, ya que email también es único)
+        if (userRepository.existsByEmail(userRegisterDto.email())) {
+            throw new IllegalArgumentException("El email '" + userRegisterDto.email() + "' ya está en uso.");
+        }
+
         User userCreated = userMapper.userRegisterDtoToUser(userRegisterDto);
         userCreated.setPassword(passwordEncoder.encode(userRegisterDto.password()));
         
@@ -75,5 +85,31 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario con ID: " + userId + " no encontrado."));
+
+        // Obtener el usuario autenticado
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+        User currentUser = userRepository.findByEmail(currentUserEmail)
+                .orElseThrow(() -> new IllegalStateException("Usuario autenticado no encontrado."));
+
+        // Evitar que un administrador se elimine a sí mismo
+        if (user.getId_user().equals(currentUser.getId_user())) {
+            throw new IllegalStateException("No puedes eliminar tu propia cuenta.");
+        }
+
+        // Evitar eliminar al último administrador
+        if (user.getRole() == RoleEnumUser.ADMIN && userRepository.countByRole(RoleEnumUser.ADMIN) == 1) {
+            throw new IllegalStateException("No se puede eliminar al único administrador.");
+        }
+
+        // Eliminar el usuario
+        userRepository.delete(user);
     }
 }

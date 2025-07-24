@@ -63,5 +63,12 @@ public class PrizeServiceImpl implements PrizeService{
         return prizeMapper.prizeToPrizeDto(prize);
     }
 
+    @Override
+    public void deletePrize(Long id) {
+        Prize prize = prizeRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Premio con ID: " + id + " no encontrado."));
+        prizeRepository.delete(prize);
+    }
+
     
 }
