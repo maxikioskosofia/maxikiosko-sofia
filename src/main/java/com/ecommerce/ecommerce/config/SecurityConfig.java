@@ -69,7 +69,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-            "http://localhost:5173"
+            "http://localhost:5173, https://maxikiosco-sofia.vercel.app/"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "PATCH" ,"POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
