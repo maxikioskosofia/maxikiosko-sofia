@@ -40,4 +40,10 @@ public class RedeemController {
     public ResponseEntity<List<RedeemDto>> getAllRedeem() {
         return ResponseEntity.ok(redeemService.getAllRedeem());
     }
+
+    @PostMapping("/{redeemId}/complete")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    public ResponseEntity<RedeemDto> completeRedeem(@PathVariable Long redeemId) {
+        return ResponseEntity.ok(redeemService.completeRedeem(redeemId));
+    }
 }

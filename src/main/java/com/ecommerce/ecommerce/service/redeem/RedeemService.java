@@ -9,4 +9,5 @@ public interface RedeemService {
     List<RedeemDto> getRedeemsByUser(Long userId);
     RedeemDto redeemPrize(RedeemCreateDto redeemCreateDto);
     List<RedeemDto> getAllRedeem();
+    RedeemDto completeRedeem(Long redeemId);
 }

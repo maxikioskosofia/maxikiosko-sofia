@@ -84,4 +84,24 @@ public class RedeemServiceImpl implements RedeemService{
                 .map(redeemMapper::redeemToRedeemDto)
                 .toList();
     }
+
+    @Override
+    @Transactional
+    public RedeemDto completeRedeem(Long redeemId) {
+        Redeem redeem = redeemRepository.findById(redeemId)
+                .orElseThrow(() -> new IllegalArgumentException("Canje con ID: " + redeemId + " no encontrado."));
+
+        if (redeem.getStatus() == StatusEnumRedeem.COMPLETADO) {
+            throw new IllegalStateException("El canje ya está completado.");
+        }
+
+        if (redeem.getStatus() == StatusEnumRedeem.CANCELADO) {
+            throw new IllegalStateException("No se puede completar un canje cancelado.");
+        }
+
+        redeem.setStatus(StatusEnumRedeem.COMPLETADO);
+        redeemRepository.save(redeem);
+
+        return redeemMapper.redeemToRedeemDto(redeem);
+    }
 }
