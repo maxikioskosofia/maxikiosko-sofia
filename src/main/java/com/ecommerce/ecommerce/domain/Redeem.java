@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.ecommerce.ecommerce.domain.enums.StatusEnumRedeem;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,7 +28,7 @@ public class Redeem {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "prize_id", nullable = false)
     private Prize prize;
 
